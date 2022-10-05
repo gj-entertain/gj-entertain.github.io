@@ -71,6 +71,114 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-33-Search-in-Rotated-Sorted-Array" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/10/05/33-Search-in-Rotated-Sorted-Array/" class="article-date">
+  <time class="dt-published" datetime="2022-10-05T23:40:54.000Z" itemprop="datePublished">2022-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/10/05/33-Search-in-Rotated-Sorted-Array/">33.Search in Rotated Sorted Array</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>There is an integer array nums sorted in ascending order (with distinct values).</p>
+<p>Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 &lt;&#x3D; k &lt; nums.length) such that the resulting array is [nums[k], nums[k+1], …, nums[n-1], nums[0], nums[1], …, nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].</p>
+<p>Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.</p>
+<p>You must write an algorithm with O(log n) runtime complexity.</p>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example:"></a>Example:</h1><p>Input: nums &#x3D; [4,5,6,7,0,1,2], target &#x3D; 0<br>Output: 4</p>
+<h1 id="Constraints"><a href="#Constraints" class="headerlink" title="Constraints:"></a>Constraints:</h1><p>1 &lt;&#x3D; nums.length &lt;&#x3D; 5000</p>
+<p>-104 &lt;&#x3D; nums[i] &lt;&#x3D; 104</p>
+<p>All values of nums are unique.</p>
+<p>nums is an ascending array that is possibly<br>rotated.</p>
+<p>-104 &lt;&#x3D; target &lt;&#x3D; 104</p>
+<h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> t)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> l = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> r = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt;= r) &#123;</span><br><span class="line">            <span class="type">int</span> mid = l + (r - l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] == t) &#123;</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (nums[mid] &gt;= nums[l]) &#123;    <span class="comment">//= </span></span><br><span class="line">                <span class="keyword">if</span> (nums[mid] &lt; t) l = mid + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (t &gt;= nums[l]) r = mid - <span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">else</span> l = mid + <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;                              <span class="comment">// no = 不然就不连续了</span></span><br><span class="line">                <span class="keyword">if</span> (nums[mid] &gt; t) r = mid - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (t &lt;= nums[r]) l = mid + <span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">else</span> r = mid - <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;r is &quot;</span> &lt;&lt;r &lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span>  <span class="number">-1</span>;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h1 id="Complexity"><a href="#Complexity" class="headerlink" title="Complexity"></a>Complexity</h1><p>Time: O(logn)<br>Space: O(1)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/10/05/33-Search-in-Rotated-Sorted-Array/" data-id="cl8w9zjyx0000gjrpeo6g2nzt" data-title="33.Search in Rotated Sorted Array" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Array/" rel="tag">Array</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/" rel="tag">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-278-First-Bad-Verision" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/10/05/278-First-Bad-Verision/" class="article-date">
+  <time class="dt-published" datetime="2022-10-05T22:09:04.000Z" itemprop="datePublished">2022-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/10/05/278-First-Bad-Verision/">278. First Bad Verision</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.</p>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example:"></a>Example:</h1><p>Input: n &#x3D; 5, bad &#x3D; 4</p>
+<p>Output: 4</p>
+<p>Explanation:</p>
+<p>call isBadVersion(3) -&gt; false</p>
+<p>call isBadVersion(5) -&gt; true</p>
+<p>call isBadVersion(4) -&gt; true</p>
+<p>Then 4 is the first bad version.</p>
+<h1 id="Constraints"><a href="#Constraints" class="headerlink" title="Constraints:"></a>Constraints:</h1><p>1 &lt;&#x3D; bad &lt;&#x3D; n &lt;&#x3D; 231 - 1</p>
+<h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">firstBadVersion</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> l = <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> r = n;</span><br><span class="line">        <span class="keyword">while</span>(l &lt;= r) &#123;</span><br><span class="line">            <span class="type">int</span> mid = l + (r - l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isBadVersion</span>(mid)) &#123;</span><br><span class="line">                r = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                l = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Complexity"><a href="#Complexity" class="headerlink" title="Complexity"></a>Complexity</h1><p>Time: O(logn)<br>Space: O(1)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/10/05/278-First-Bad-Verision/" data-id="cl8w9zjyz0001gjrphoiic3hv" data-title="278. First Bad Verision" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Array/" rel="tag">Array</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/" rel="tag">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-35. Search Insert Position" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/10/05/35.%20Search%20Insert%20Position/" class="article-date">
@@ -118,6 +226,57 @@
 
 
   
+    <article id="post-704-Binary-Search" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/10/05/704-Binary-Search/" class="article-date">
+  <time class="dt-published" datetime="2022-10-05T21:21:37.000Z" itemprop="datePublished">2022-10-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/10/05/704-Binary-Search/">704. Binary Search</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Given a sorted (in ascending order) integer array nums of n elements and a target value, write a function to search target in nums. If target exists, then return its index, otherwise return -1.</p>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example:"></a>Example:</h1><p>Input: nums &#x3D; [-1,0,3,5,9,12], target &#x3D; 9 Output: 4 Explanation: 9 exists in nums and its index is 4</p>
+<p>Input: nums &#x3D; [-1,0,3,5,9,12], target &#x3D; 2 Output: -1 Explanation: 2 does not exist in nums so return -1</p>
+<h1 id="Constraints"><a href="#Constraints" class="headerlink" title="Constraints:"></a>Constraints:</h1><p>You may assume that all elements in nums are unique.</p>
+<p>n will be in the range [1, 10000].</p>
+<p>The value of each element in nums will be in the range [-9999, 9999].</p>
+<h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> l = <span class="number">0</span>; </span><br><span class="line">        <span class="type">int</span> r = nums.<span class="built_in">size</span>(); </span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> mid = l + (r - l) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (target == nums[mid]) </span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; nums[mid]) &#123;</span><br><span class="line">                l = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                r = mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Arpoach-II"><a href="#Arpoach-II" class="headerlink" title="Arpoach II"></a>Arpoach II</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> it = <span class="built_in">lower_bound</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>(), target);</span><br><span class="line">    <span class="keyword">if</span> (it == nums.<span class="built_in">end</span>() || *it != target) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> it - nums.<span class="built_in">begin</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Complexity"><a href="#Complexity" class="headerlink" title="Complexity"></a>Complexity</h1><p>Time: O(logn)<br>Space: O(1)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/10/05/704-Binary-Search/" data-id="cl8w9zjz00003gjrp0ejl42dw" data-title="704. Binary Search" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Array/" rel="tag">Array</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Binary-Search/" rel="tag">Binary Search</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-34-Find-First-and-Last-Position-of-Element-in-Sorted-Array" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/10/05/34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/" class="article-date">
@@ -151,6 +310,8 @@
 <p>nums is a non-decreasing array.</p>
 <p>-109 &lt;&#x3D; target &lt;&#x3D; 109</p>
 <h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">searchRange</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> l = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> r = nums.<span class="built_in">size</span>();   <span class="comment">//[l,r)</span></span><br><span class="line">        <span class="type">bool</span> find = <span class="literal">false</span>;</span><br><span class="line">        <span class="type">int</span> start = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> mid = l + (r - l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (target == nums[mid]) &#123;</span><br><span class="line">                find = <span class="literal">true</span>;</span><br><span class="line">                start = mid;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (target &gt; nums[mid]) &#123;</span><br><span class="line">                l = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                r = mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!find) <span class="keyword">return</span> &#123;<span class="number">-1</span>, <span class="number">-1</span>&#125;;</span><br><span class="line">        l = start;</span><br><span class="line">        r = start;</span><br><span class="line">        <span class="keyword">while</span>( l &gt;= <span class="number">0</span> &amp;&amp; nums[l] == target) &#123;</span><br><span class="line">            l--;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(r &lt; nums.<span class="built_in">size</span>() &amp;&amp; nums[r] == target)&#123;</span><br><span class="line">            r++;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">       </span><br><span class="line">        <span class="keyword">return</span> &#123;l+<span class="number">1</span>, r<span class="number">-1</span>&#125;;</span><br><span class="line">       </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Arpoach-II"><a href="#Arpoach-II" class="headerlink" title="Arpoach II"></a>Arpoach II</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Author: Huahua</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">searchRange</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="built_in">firstPos</span>(nums, target), <span class="built_in">lastPos</span>(nums, target)&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="function"><span class="type">int</span> <span class="title">firstPos</span><span class="params">(<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> l = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> r = nums.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">      <span class="type">int</span> m = l + (r - l) / <span class="number">2</span>;      </span><br><span class="line">      <span class="keyword">if</span> (nums[m] &gt;= target) &#123;</span><br><span class="line">        r = m;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        l = m + <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (l == nums.<span class="built_in">size</span>() || nums[l] != target) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> l;    </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="type">int</span> <span class="title">lastPos</span><span class="params">(<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> l = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> r = nums.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">      <span class="type">int</span> m = l + (r - l) / <span class="number">2</span>;      </span><br><span class="line">      <span class="keyword">if</span> (nums[m] &gt; target) &#123;</span><br><span class="line">        r = m;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        l = m + <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// l points to the first element this is greater than target.</span></span><br><span class="line">    --l;        </span><br><span class="line">    <span class="keyword">if</span> (l &lt; <span class="number">0</span> || nums[l] != target) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <h1 id="Complexity"><a href="#Complexity" class="headerlink" title="Complexity"></a>Complexity</h1><p>Time: O(logn)<br>Space: O(1)</p>
 
@@ -305,19 +466,23 @@
       <ul>
         
           <li>
+            <a href="/2022/10/05/33-Search-in-Rotated-Sorted-Array/">33.Search in Rotated Sorted Array</a>
+          </li>
+        
+          <li>
+            <a href="/2022/10/05/278-First-Bad-Verision/">278. First Bad Verision</a>
+          </li>
+        
+          <li>
             <a href="/2022/10/05/35.%20Search%20Insert%20Position/">35. Search Insert Position</a>
           </li>
         
           <li>
+            <a href="/2022/10/05/704-Binary-Search/">704. Binary Search</a>
+          </li>
+        
+          <li>
             <a href="/2022/10/05/34-Find-First-and-Last-Position-of-Element-in-Sorted-Array/">34. Find First and Last Position of Element in Sorted Array</a>
-          </li>
-        
-          <li>
-            <a href="/2022/09/29/SIG-OA/">SIG OA</a>
-          </li>
-        
-          <li>
-            <a href="/2022/09/29/hello-world/">Hello World</a>
           </li>
         
       </ul>
